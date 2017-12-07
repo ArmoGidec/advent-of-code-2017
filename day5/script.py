@@ -9,8 +9,11 @@ while(True):
     try:
         prev_index = index
         index += a[index]
-        a[prev_index] += 1
-        steps+=1
+        if a[prev_index] >= 3:
+            a[prev_index] -= 1
+        else:
+            a[prev_index] += 1
+        steps += 1
     except IndexError:
         print steps
         break
