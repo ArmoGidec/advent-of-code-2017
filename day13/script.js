@@ -1,8 +1,8 @@
-const size = 84;
-let firewall_first_state = new Array(size).fill({
+const size = 6;
+let firewall = new Array(size).fill({
     array: []
 });
-let firewall;
+let lines = [];
 
 let fs = require('fs');
 fs.readFile('day13/input.txt', (err, data) => {
@@ -15,22 +15,31 @@ fs.readFile('day13/input.txt', (err, data) => {
 
 
 function mainAction(text) {
-    firewall = Array.from(firewall_first_state);
-    text.split('\n').forEach(line => {
+    lines = text.split('\n');
+    // let caughted = toPassFirewall();
+    // let depth = toMathDepth(caughted);
+    // console.log(depth);
+
+    let delay = toPassFirewall();
+    console.log(delay);
+}
+
+function createArray() {
+    let firewall_first= new Array(size).fill({
+        array: []
+    });
+    lines.forEach(line => {
         let {
             i,
             range
         } = toParseLine(line);
-        firewall[i] = {
+        firewall_first[i] = {
             direction: 1,
             array: new Array(range).fill(0)
         };
-        firewall[i].array[0] = 1;
+        firewall_first[i].array[0] = 1;
     });
-
-    let caughted = toPassFirewall();
-    let depth = toMathDepth(caughted);
-    console.log(depth);
+    return firewall_first;
 }
 
 function toMathDepth(c_layers) {
@@ -38,20 +47,34 @@ function toMathDepth(c_layers) {
     return result;
 }
 
-function toPassFirewall(j = 1) {
-    let layers = [0];
-
-    for (; j <= size; j++) {
-        if (caughtOnNextLayer(j)) {
-            layers.push(j);
+function toPassFirewall(i = 0) {
+    let b;
+    while (!b) {
+        firewall = createArray();
+        toDelay(i);
+        b = true;
+        for (let j = 0; j <= size; j++) {
+            if (caughtOnNextLayer(j)) {
+                console.log(`Is traped on ${j}'s layer. Delay ${i}.`);
+                i += 1;
+                b = false;
+                break;
+            }
         }
     }
-    return layers;
+    return i;
+}
+
+function toDelay(i) {
+    for (let j = 0; j < i; j++) {
+        updateFirewallState();
+    }
 }
 
 function caughtOnNextLayer(j) {
+    let caught = firewall[j].array[0] === 1;
     updateFirewallState();
-    return firewall[j] !== undefined && firewall[j].array[0] === 1;
+    return caught;
 }
 
 function updateFirewallState() {
