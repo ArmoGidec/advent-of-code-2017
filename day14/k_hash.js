@@ -14,7 +14,10 @@ function toGetHash(text) {
 }
 
 function toGetHex(array) {
-    let hex_list = array.map(el => el.toString(16));
+    let hex_list = array.map(el =>{
+        let res = el.toString(16);
+        return '0'.repeat(2 - res.length) + res;
+    });
     return hex_list.join('');
 }
 

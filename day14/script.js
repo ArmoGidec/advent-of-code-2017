@@ -1,6 +1,7 @@
 let toGetHash = require('./k_hash').toGetHash;
 
 let input = 'oundnydw';
+// let input = 'flqrgnkx';
 let used_squares = 0;
 let disk = [];
 for (let i = 0; i < 128; i++) {
@@ -20,8 +21,8 @@ let num_reg = 1;
 
 function searchRegion(i, j) {
     let b = false;
-    if (disk[i][j] === '#') {
-        disk[i][j]=num_reg;
+    if (disk[i][j] === '#' || disk[i][j] == num_reg) {
+        disk[i][j] = num_reg;
         b = true;
         if (i < disk.length - 1 && disk[i + 1][j] === '#') {
             disk[i + 1][j] = num_reg;
@@ -51,4 +52,4 @@ for (let i = 0; i < 128; i++) {
     }
 }
 
-console.log(num_reg);
+console.log(num_reg-1);
