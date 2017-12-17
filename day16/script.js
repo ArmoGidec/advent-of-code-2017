@@ -9,11 +9,13 @@ fs.readFile('day16/input.txt', (err, data) => {
 });
 
 let array = 'abcdefghijklmnop'.split('');
+// let array = 'abcde'.split('');
 
 function main(text) {
     let moves = text.split(/ *, */g);
+    // let moves =['s1','x3/4','pe/b'];
     let len = 1000000000;
-    for (let i = 0; i < len; i++) {
+    for (let i = 1; i <= len; i++) {
         for (let move of moves) {
             let {
                 func,
@@ -58,7 +60,7 @@ function spin(len) {
     return array;
 }
 
-Array.prototype.spin = function (len) {
+Array.prototype.spin = function(len) {
     let ar = this.slice();
     for (let i = 0, length = this.length; i < length; i++) {
         ar[(i + len) % length] = this[i];
@@ -77,7 +79,7 @@ function exchange(a, b) {
     return array;
 }
 
-Array.prototype.exchange = function (a, b) {
+Array.prototype.exchange = function(a, b) {
     let ar = this.slice();
     ar[a] = [ar[b], ar[b] = ar[a]][0];
     return ar;
