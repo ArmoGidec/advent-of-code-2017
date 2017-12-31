@@ -11,20 +11,19 @@ fs.readFile('./day18/input.txt', (err, data) => {
 
 function main(text) {
     let instructions = text.split('\n');
-    let program1 = new Program('program1', instructions);
-    let program2 = new Program('program2', instructions);
+    let program0 = new Program(0, instructions);
+    let program1 = new Program(1, instructions);
 
-    program1.toHear = program2.snded;
-    program2.toHear = program1.snded;
+    program0.toHear = program1.snded;
+    program1.toHear = program0.snded;
 
+    program0.start();
     program1.start();
-    program2.start();
 
-    // let timer = setInterval(() => {
-    //     console.log('Check:', program1, program2);
-    //     if (program1.is_wait && program2.is_wait) {
-    //         console.log(program1.snded_k);
-    //         clearInterval(timer);
-    //     }
-    // }, 1000);
+    let timer = setInterval(() => {
+        if (program0.is_wait && program1.is_wait && program0.snded.length === 0 && program1.snded.length === 0) {
+            console.log(program1.snded_k);
+            clearInterval(timer);
+        }
+    }, 1000);
 }
