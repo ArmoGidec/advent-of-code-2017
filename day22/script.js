@@ -56,12 +56,18 @@ function start(val) {
 
 function toggle(i, j) {
     switch (map[i][j]) {
-        case '#':
-            map[i][j] = '.';
-            return true;
         case '.':
+            map[i][j] = 'W';
+            return true;
+        case 'W':
             map[i][j] = '#';
             carrier.infected += 1;
+            return true;
+        case '#':
+            map[i][j] = 'F';
+            return true;
+        case 'F':
+            map[i][j] = '.';
             return true;
         default:
             console.log('Error value');
@@ -71,13 +77,33 @@ function toggle(i, j) {
 
 function switchTurn(state, direction) {
     switch (state) {
+        case 'W':
+            return direction;
         case '#':
             return turnRigth(direction);
         case '.':
             return turnLeft(direction);
+        case 'F':
+            return reverse(direction);
         default:
-            console.log('Unknown state');
+            console.error('Unknown state');
             exit();
+    }
+}
+
+function reverse(direction) {
+    switch (direction.name) {
+        case 'up':
+            return down;
+        case 'rigth':
+            return left;
+        case 'down':
+            return up;
+        case 'left':
+            return rigth;
+        default:
+            console.log('Cant find direction');
+            return exit;
     }
 }
 
@@ -152,18 +178,13 @@ function exit() {
 let Test = {
     tests: [{
             num: 1,
-            val: 7,
-            res: 5
+            val: 100,
+            res: 26
         },
         {
             num: 2,
-            val: 70,
-            res: 41
-        },
-        {
-            num: 3,
-            val: 10000,
-            res: 5587
+            val: 10000000,
+            res: 2511944
         }
     ],
     pass: function() {
@@ -186,7 +207,7 @@ let Test = {
                 return;
             }
             carrier = default_carrier;
-            let result = main(data.toString(), 10000);
+            let result = main(data.toString(), 10000000);
             console.log(result);
         });
     }
